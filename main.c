@@ -1,7 +1,7 @@
 /*
- *	PostgreSQL definitions for managed Large Objects.
+ *	PostgreSQL definitions for Query plan.
  *
- *	contrib/lo/lo.c
+ *	contrib/optimizer/main.c
  *
  */
 
