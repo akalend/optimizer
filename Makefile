@@ -13,8 +13,8 @@ OBJS =  \
 	subselect.o \
 	main.o
 
-EXTENSION = op
-DATA = op--0.1.sql 
+EXTENSION = optimizer
+DATA = optimizer--0.1.sql 
 PGFILEDESC = "my optimizer"
 
 # REGRESS = op

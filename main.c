@@ -25,12 +25,36 @@ PG_MODULE_MAGIC;
  * This is the trigger that protects us from orphaned large objects
  */
 PG_FUNCTION_INFO_V1(op_version);
-
 Datum
 op_version(PG_FUNCTION_ARGS)
 {
 	PG_RETURN_TEXT_P(cstring_to_text(OP_VERSION));
 }
+
+
+PG_FUNCTION_INFO_V1(op_check);
+Datum
+op_check(PG_FUNCTION_ARGS)
+{
+    if (planner_hook == my_planner) 
+    {
+        PG_RETURN_INT32(1);
+    }
+    PG_RETURN_INT32(0);
+}
+
+
+PG_FUNCTION_INFO_V1(op_on);
+Datum
+op_on(PG_FUNCTION_ARGS)
+{
+    /* intercept planner */
+    planner_hook = my_planner;
+
+    PG_RETURN_TEXT_P(cstring_to_text("Ok"));
+}
+
+
 
 /* shared library initialization function */
 void
@@ -55,16 +79,15 @@ _PG_init(void)
      * (thus as the innermost/last running hook) to be able to do our
      * duties. For simplicity insist that all hooks are previously unused.
      */
-    if (planner_hook != NULL )
-    {
-        ereport(ERROR, (errmsg("op extension has to be loaded first"),
-                        errhint("Place this op extension at the beginning of "
-                                "shared_preload_libraries.")));
-    }
+    // if (planner_hook != NULL )
+    // {
+    //     ereport(ERROR, (errmsg("op extension has to be loaded first"),
+    //                     errhint("Place this op extension at the beginning of "
+    //                             "shared_preload_libraries.")));
+    // }
 
     /* intercept planner */
     planner_hook = my_planner;
-
 
 }
 

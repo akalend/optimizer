@@ -1,0 +1,6 @@
+# optimizer extension
+comment = 'plan optimizer'
+default_version = '0.1'
+module_pathname = '$libdir/optimizer'
+relocatable = true
+trusted = true
