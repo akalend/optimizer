@@ -8,7 +8,6 @@
 #include "postgres.h"
 
 //  #include "common/hashfn.h"
-#include "optimizer/planner.h"
 #include "planner.h"
 
 

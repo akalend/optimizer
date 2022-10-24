@@ -50,7 +50,7 @@
 #include "optimizer/paths.h"
 #include "optimizer/plancat.h"
 #include "optimizer/planmain.h"
-#include "optimizer/planner.h"
+#include "planner.h"
 #include "optimizer/prep.h"
 #include "optimizer/subselect.h"
 #include "optimizer/tlist.h"
@@ -388,8 +388,9 @@ my_planner(Query *parse, const char *query_string, int cursorOptions,
 		tuple_fraction = 0.0;
 	}
 
+	elog(WARNING, "before start op_subquery_planner");
 	/* primary planning entry point (may recurse for subqueries) */
-	root = subquery_planner(glob, parse, NULL,
+	root = op_subquery_planner(glob, parse, NULL,
 							false, tuple_fraction);
 
 	/* Select best Path and turn it into a Plan */
@@ -551,7 +552,7 @@ my_planner(Query *parse, const char *query_string, int cursorOptions,
 
 
 /*--------------------
- * subquery_planner
+ * op_subquery_planner
  *	  Invokes the planner on a subquery.  We recurse to here for each
  *	  sub-SELECT found in the query tree.
  *
@@ -568,7 +569,7 @@ my_planner(Query *parse, const char *query_string, int cursorOptions,
  * that's not currently true, but we keep the separation between the two
  * routines anyway, in case we need it again someday.
  *
- * subquery_planner will be called recursively to handle sub-Query nodes
+ * op_subquery_planner will be called recursively to handle sub-Query nodes
  * found within the query's expressions and rangetable.
  *
  * Returns the PlannerInfo struct ("root") that contains all data generated
@@ -579,7 +580,7 @@ my_planner(Query *parse, const char *query_string, int cursorOptions,
  *--------------------
  */
 PlannerInfo *
-subquery_planner(PlannerGlobal *glob, Query *parse,
+op_subquery_planner(PlannerGlobal *glob, Query *parse,
 				 PlannerInfo *parent_root,
 				 bool hasRecursion, double tuple_fraction)
 {
@@ -590,6 +591,8 @@ subquery_planner(PlannerGlobal *glob, Query *parse,
 	bool		hasResultRTEs;
 	RelOptInfo *final_rel;
 	ListCell   *l;
+
+	elog(WARNING, "start %s", __FUNCTION__);
 
 	/* Create a PlannerInfo data structure for this subquery */
 	root = makeNode(PlannerInfo);
@@ -1037,7 +1040,7 @@ subquery_planner(PlannerGlobal *glob, Query *parse,
 
 /*
  * op_preprocess_expression
- *		Do subquery_planner's preprocessing work for an expression,
+ *		Do op_subquery_planner's preprocessing work for an expression,
  *		which can be a targetlist, a WHERE clause (including JOIN/ON
  *		conditions), a HAVING clause, or a few other things.
  */
@@ -1141,7 +1144,7 @@ op_preprocess_expression(PlannerInfo *root, Node *expr, int kind)
 
 /*
  * op_preprocess_qual_conditions
- *		Recursively scan the query's jointree and do subquery_planner's
+ *		Recursively scan the query's jointree and do op_subquery_planner's
  *		preprocessing work on each qual condition found therein.
  */
 static void
@@ -1187,7 +1190,7 @@ op_preprocess_qual_conditions(PlannerInfo *root, Node *jtnode)
  * output must be wrapped in a PlaceHolderVar because of an intermediate outer
  * join, then we'll push the PlaceHolderVar expression down into the subquery
  * and later pull it back up during find_lateral_references, which runs after
- * subquery_planner has preprocessed all the expressions that were in the
+ * op_subquery_planner has preprocessed all the expressions that were in the
  * current query level to start with.  So we need to preprocess it then.
  */
 Expr *

@@ -62,7 +62,7 @@ query_planner(PlannerInfo *root,
 	/*
 	 * Init planner lists to empty.
 	 *
-	 * NOTE: append_rel_list was set up by subquery_planner, so do not touch
+	 * NOTE: append_rel_list was set up by op_subquery_planner, so do not touch
 	 * here.
 	 */
 	root->join_rel_list = NIL;

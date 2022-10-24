@@ -22,7 +22,7 @@
 #include "optimizer/optimizer.h"
 #include "optimizer/pathnode.h"
 #include "optimizer/planmain.h"
-#include "optimizer/planner.h"
+#include "planner.h"
 #include "optimizer/tlist.h"
 #include "tcop/utility.h"
 #include "utils/lsyscache.h"

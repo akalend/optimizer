@@ -421,7 +421,7 @@ build_minmax_path(PlannerInfo *root, MinMaxAggInfo *mminfo,
 	final_rel = query_planner(subroot, minmax_qp_callback, NULL);
 
 	/*
-	 * Since we didn't go through subquery_planner() to handle the subquery,
+	 * Since we didn't go through op_subquery_planner() to handle the subquery,
 	 * we have to do some of the same cleanup it would do, in particular cope
 	 * with params and initplans used within this subquery.  (This won't
 	 * matter if we end up not using the subplan.)

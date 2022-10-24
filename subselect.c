@@ -29,7 +29,7 @@
 #include "optimizer/paramassign.h"
 #include "optimizer/pathnode.h"
 #include "optimizer/planmain.h"
-#include "optimizer/planner.h"
+#include "planner.h"
 #include "optimizer/prep.h"
 #include "optimizer/subselect.h"
 #include "parser/parse_relation.h"
