@@ -55,6 +55,14 @@ op_on(PG_FUNCTION_ARGS)
 }
 
 
+PG_FUNCTION_INFO_V1(op_test);
+Datum
+op_test(PG_FUNCTION_ARGS)
+{
+    PG_RETURN_TEXT_P(cstring_to_text("test"));
+}
+
+
 
 /* shared library initialization function */
 void
