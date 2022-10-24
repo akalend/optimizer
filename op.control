@@ -1,6 +1,0 @@
-# optimizer extension
-comment = '***'
-default_version = '0.1'
-module_pathname = '$libdir/op'
-relocatable = true
-trusted = true
