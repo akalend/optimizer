@@ -13,15 +13,20 @@ SELECT op_version();    // product version
 ```
 
 ```
-    SELECT op_on(); // set enable optimizer
+	SELECT op_on(); // set enable optimizer
+	 op_on
+	--------
+	 Ok
+	(1 row)
 ```
 
 ```
-    SELECT op_off(); // set disable optimizer
-```
+	SELECT op_off(); // set disable optimizer
+	 op_off
+	--------
+	 Ok
+	(1 row)
 
-```
-    SELECT op_off(); // set disable optimizer
 ```
 
 ```
